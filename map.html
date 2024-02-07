@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Map</title>
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h3>Restaurante Locator</h3>
+  <!-- The div element for the map -->
+  <div id="map"></div>
+
+  <script>
+    let map;
+    let userMarker;
+    let directionsService;
+    let directionsRenderer;
+
+    function initMap() {
+      let novaims = { lat: 38.732149, lng: -9.160383 }; // Novaims as the initial destination
+
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        center: novaims,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.RIGHT_TOP,
+        },
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+      });
+
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+        suppressMarkers: true,
+        preserveViewport: true
+      });
+
+      // Add marker for novaims
+      let novaimsMarker = new google.maps.Marker({
+        position: novaims,
+        map: map,
+        title: 'Novaims' // Name for the initial destination
+      });
+
+      // Attempt to get the user's location
+      if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+          function (position) {
+            let userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+
+            if (!userMarker) {
+              // Create a new marker for the user
+              userMarker = new google.maps.Marker({
+                position: userLocation,
+                map: map,
+                icon: {
+                  path: google.maps.SymbolPath.CIRCLE,
+                  fillColor: 'blue',
+                  fillOpacity: 1,
+                  strokeColor: 'white',
+                  strokeWeight: 2,
+                  scale: 10
+                },
+                title: 'Your Location'
+              });
+            } else {
+              // Update the position of the existing marker
+              userMarker.setPosition(userLocation);
+            }
+
+            // Update the route based on the user's current location
+            updateRoute(userLocation);
+          },
+          function () {
+            // Handle geolocation error
+            handleLocationError(true, map.getCenter());
+          }
+        );
+      } else {
+        // Browser doesn't support Geolocation
+        handleLocationError(false, map.getCenter());
+      }
+    }
+
+    function updateRoute(userLocation) {
+      // Define the route request
+      let request = {
+        origin: userLocation,
+        destination: "38.732149, -9.160383", // Novaims
+        travelMode: google.maps.TravelMode.WALKING,
+      };
+
+      // Retrieve the directions and display them on the map
+      directionsService.route(request, function (result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
+          directionsRenderer.setDirections(result);
+        } else {
+          window.alert("Directions request failed due to " + status);
+        }
+      });
+    }
+
+    function handleLocationError(browserHasGeolocation, pos) {
+      // Display an error message based on whether geolocation is supported
+      let errorMessage = browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation.";
+      console.error(errorMessage);
+    }
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw2eejHfqTkEIOsBAw57sHvVvYIiFYwg0&callback=initMap" async defer></script>
+</body>
+</html>
