@@ -1,124 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Add Map</title>
-  <style>
-    #map {
-      height: 400px;
-      width: 100%;
-    }
-  </style>
-</head>
-<body>
-  <h3>Restaurante Locator</h3>
-  <!-- The div element for the map -->
-  <div id="map"></div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script>
-    let map;
-    let userMarker;
-    let directionsService;
-    let directionsRenderer;
+    <!--Css styling of leaflet map-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <!--Leaflet routing maching css-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    
 
-    function initMap() {
-      let novaims = { lat: 38.732149, lng: -9.160383 }; // Novaims as the initial destination
-
-      map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 15,
-        center: novaims,
-        mapTypeControl: false,
-        streetViewControl: false,
-        fullscreenControl: false,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: google.maps.ControlPosition.RIGHT_TOP,
-        },
-        mapTypeId: google.maps.MapTypeId.ROADMAP,
-      });
-
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer({
-        map: map,
-        suppressMarkers: true,
-        preserveViewport: true
-      });
-
-      // Add marker for novaims
-      let novaimsMarker = new google.maps.Marker({
-        position: novaims,
-        map: map,
-        title: 'Novaims' // Name for the initial destination
-      });
-
-      // Attempt to get the user's location
-      if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(
-          function (position) {
-            let userLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
-            };
-
-            if (!userMarker) {
-              // Create a new marker for the user
-              userMarker = new google.maps.Marker({
-                position: userLocation,
-                map: map,
-                icon: {
-                  path: google.maps.SymbolPath.CIRCLE,
-                  fillColor: 'blue',
-                  fillOpacity: 1,
-                  strokeColor: 'white',
-                  strokeWeight: 2,
-                  scale: 10
-                },
-                title: 'Your Location'
-              });
-            } else {
-              // Update the position of the existing marker
-              userMarker.setPosition(userLocation);
-            }
-
-            // Update the route based on the user's current location
-            updateRoute(userLocation);
-          },
-          function () {
-            // Handle geolocation error
-            handleLocationError(true, map.getCenter());
-          }
-        );
-      } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, map.getCenter());
-      }
-    }
-
-    function updateRoute(userLocation) {
-      // Define the route request
-      let request = {
-        origin: userLocation,
-        destination: "38.732149, -9.160383", // Novaims
-        travelMode: google.maps.TravelMode.WALKING,
-      };
-
-      // Retrieve the directions and display them on the map
-      directionsService.route(request, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-          directionsRenderer.setDirections(result);
-        } else {
-          window.alert("Directions request failed due to " + status);
+    <title>Real Time Location</title>
+    <style>
+        body {
+            margin:0;
+            padding:0;
         }
-      });
-    }
+        #map {
+            width: 100%;
+            height: 100vh;
+        }
 
-    function handleLocationError(browserHasGeolocation, pos) {
-      // Display an error message based on whether geolocation is supported
-      let errorMessage = browserHasGeolocation
-        ? "Error: The Geolocation service failed."
-        : "Error: Your browser doesn't support geolocation.";
-      console.error(errorMessage);
-    }
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDw2eejHfqTkEIOsBAw57sHvVvYIiFYwg0&callback=initMap" async defer></script>
+      
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
 </body>
 </html>
+
+<!--Leaflet-js-->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<!--Leaflet routing machine js -->
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script>
+    var map = L.map('map').setView([38.73245667901812, -9.160451550924881], 11);
+
+    /*==========================================================
+               Different Tiles
+    ============================================================*/
+        
+    var osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Google Satellite tile 
+    var googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+    });
+    // googleSat.addTo(map)
+
+    // google street view
+    googleStreets = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+    });
+    // googleStreets.addTo(map)
+
+    // google hybrid
+    // The hybrid will be the base map that will show because it is the last base map we typed
+    googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}',{
+    maxZoom: 20,
+    subdomains:['mt0','mt1','mt2','mt3']
+    });
+    // googleHybrid.addTo(map)
+
+  
+
+    // Adding a layer control
+    var baseMaps = {
+    "OSM": osm,
+    "Satellite Map": googleSat,
+    "GoogleStreets": googleStreets,
+    "Hybrid": googleHybrid,
+ 
+    };
+
+    var layerControl = L.control.layers(baseMaps).addTo(map);
+
+    var routingControl;
+    var userMarker;
+
+    navigator.geolocation.watchPosition(success,error)
+
+    function success(position) {
+        var lat = position.coords.latitude;
+        var long = position.coords.longitude;
+
+        if (routingControl !== undefined) {
+            map.removeControl(routingControl);
+        }
+
+        if (userMarker !== undefined) {
+            map.removeLayer(userMarker)
+        }
+
+        // Create a CircleMarker for the user's location
+        userMarker = L.circleMarker([lat, long], {
+            radius: 8, // Adjust the radius as needed
+            color: 'blue', // Adjust the color as needed
+            fillColor: '#007bff', // Adjust the fill color as needed
+            fillOpacity: 1 // Adjust the fill opacity as needed
+        }).addTo(map);
+
+        // Create a marker for the destination
+        var destinationMarker = L.marker([38.70774898854803, -9.168626902593894]).addTo(map); // Sirak, pass in the location of the restaurant here
+
+        // Create new routing control
+        routingControl = L.Routing.control({
+            waypoints: [
+                L.latLng(lat, long),
+                L.latLng(38.70774898854803, -9.168626902593894) // pass it here also
+            ],
+            draggableWaypoints: false
+        }).addTo(map);
+    }
+
+    function error(err) {
+        if (err.code === 1) {
+            alert("Please allow geolocation access");
+        } else {
+            pass;
+        }
+    }
+</script>
+
