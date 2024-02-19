@@ -26,3 +26,7 @@ In order to prevent users  from editing information directly from the database, 
 A comment section was created under each restaurant. Users can CREATE comments, READ other users comments, UPDATE their comments by making edits to it as well as DELETE their comments.
 
 #4 The various parts of the website was put in a docker container which was used to fetch various parts of the websites.
+
+
+# Additional Functions
+Open Streets Map and Leaflet Js was used to create a map where users could navigate from their current location to a selected restaurant. The user has the option of getting directions to a selcted restaurant. The is created on the map and the route gets updated as the user moves. The routing guides the user on the path to take untill he finally gets to his destination
