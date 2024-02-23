@@ -30,3 +30,19 @@ A comment section was created under each restaurant. Users can CREATE comments, 
 
 # Additional Functions
 Open Streets Map and Leaflet Js was used to create a map where users could navigate from their current location to a selected restaurant. The user has the option of getting directions to a selcted restaurant. The is created on the map and the route gets updated as the user moves. The routing guides the user on the path to take untill he finally gets to his destination
+
+
+# The Website.
+The website is made of different pages. The pages are as follows:
+- Home
+- About
+- Map
+- Restaurants
+- Register ( If the user is not logged in)
+- Login (If the user is not logged in)
+- Logout Button (If the user is logged in)
+
+- HOME
+The main page is the home page. The home page displays the restaurants near the various campuses. These restaurants are obtained from the database which contains the restaurants that were obtained from the google api and the ones that were added by the admin. The addition of restaurants by the admin would be explained further in this Read Me. The user can filter the restaurants that are being displayed by searhing by the restaurant name. The user additionally has the choice to select the university they want to explore for nearby restaurants, along with specifying the rating of the restaurants they wish to view.The restaurants that meet the requirments are displayed when the user clicks on the submit form button. The other parts of the website just gives additional information on what the user can do with the app such as leaving a review, finding a restaurant near him and requesting an addition of a new restaurant.
+
+- About
