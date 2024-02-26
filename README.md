@@ -33,6 +33,7 @@ Open Streets Map and Leaflet Js was used to create a map where users could navig
 
 
 # The Website.
+# add readme
 The website is made of different pages. The pages are as follows:
 - Home
 - About
