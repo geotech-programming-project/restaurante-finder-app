@@ -108,13 +108,43 @@ The main website folder is called 'restaurant_app'. This folder contains the con
 - urls.py
   This is responsible for running the urls. when the user accesses a certain url, the functions in this python file redirects the request to another python script depending on the url that is being accessed. If the script that the user is being directed to is another url.py, then that code will also redirect the user to another script untill it's finally redirected to a script that will render and html page which will be displayed on the website.
 
-- Restaurant folder
+- Restaurants folder
 
 * Migrations
 This folder has scripts that creates tables in the postgres database. when this script is run, the tables and columns in the script will be created in the postgres.'python manage.py makemigrations' and then 'python manage.py migrate' commands are used to create the table.
 
 * Urls.py
 This script redirects the user to a python script or python function in a script based on the url request that is being made.
+
+*  admin.py
+Django creates an inbuilt administator page where the administator of the websites can edit infomation from that page. The admin needs to login with his credenials and he will be able to manage information from this page. The admin.py in this folder and other folders is responsible for adding additional information on the admin page.
+
+* apps.py
+This was created by default by django
+
+* forms.py
+This python file has the comment form that is rendered when the user needs to make a comment on a restaurant.
+
+*choices.py
+It has the choices the user has to select on various part of the website.
+
+- Static Folder
+This contains the html and css files that are used on the website.
+
+-Templates
+Contains part of the html and css files that are used on the website
+
+- Media Folder
+When the admin adds a picture to a restaurant or edit a restaurant's picture, the picture he uploads is stored here.
+
+- Accounts
+These accounts handles the registeration, logging in and loggin out of users.
+
+-Pages Folder
+This contains the views.py which has functions that displays restaurants on the home page and also has function for searching and filtering results. It also has a url.py which is responsible for redirecting of urls. The other python files are django configurations.
+
+
+
 
 # Utilities
 The manage.py script is a command-line utility that streamlines interaction with the Django project, allowing for tasks such as database migrations and server management.
@@ -134,7 +164,10 @@ In order to run the website from the code, make sure you have these python packa
   run the code 'python manage.py makemigrations' and then 'python manage.py migrate' in the terminal.This will create the necessary tables in postgres. Ensure that your current directory is the main folder.
 
  4. ETL Execution (Extract, Transform, Load)
-    In order to retrieve the information from the google maps API onto the postgres database, you need to run the command '
+    In order to retrieve the information from the google maps API onto the postgres database, you need to run the command 'python manage.py load restaurants'
+
+ 5. Launching the Server
+ To run the websites, you need to run the command 'python manage.py runserver'
 
 
 
