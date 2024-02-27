@@ -67,5 +67,20 @@ This button is used for registering new users on to the platform. Users must pro
 A user who is logged in can log out of the website using the logout button.
 
 # Website Functionality
+- Filtering
+The user gets to filter the restaurants by their name, the university they are located at or the ratings of the restaurants. More filters will be add in the second release of the website.
+
+- Navigation
+Upon selecting a restaurant of interest, users are redirected to another page featuring a map interface. On this page, a routing path is displayed, guiding users from their current location to the selected restaurant. This interactive map enhances user experience by providing clear directions to the desired destination.
+
+- Commenting
+Users can comment on the restaurant they have been to. They can also update the comments they have posted about the restaurant. Addditionally they can delete the comment they have posted. This gives the restaurants a Create, Read, Update and Delete functionality.
+
+# How the website runs
+![image](https://github.com/geotech-programming-project/restaurante-finder-app/assets/109597467/d3039df5-b551-4e8d-b3a5-1028449a395d)
+
+
+# How the          
+
 
 
