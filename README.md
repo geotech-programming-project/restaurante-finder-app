@@ -17,7 +17,7 @@ The entire process of the website can be divided into three many components name
 
 
 #1. Extract, Transform and Load
-Google Places API was used to retrieve resturants within a distance of 1000 meters  from both NOVA IMS and igfi schools. The API call returned a json with restaurants that met this requirements alongside the various information about them such as the type of food they sell.The data was then stored into an excel sheet in order to understand the data properly. A code was then implemented to extract the information from the excel sheet automatically. The data was cleaned (TRANSFORM) and the refined data was then loaded in a database created with postgres(LOAD). ## Sirak- talk about the various column names that were created in the database ##.
+Google Places API was used to retrieve resturants within a distance of 1000 meters  from both NOVA IMS and igfi schools. The API call returned a json with restaurants that met this requirements alongside the various information about them such as the type of food they sell.The data was then stored into an excel sheet in order to understand the data properly. A code was then implemented to extract the information from the excel sheet automatically. The data was cleaned (TRANSFORM) and the refined data was then loaded in a database created with postgres(LOAD).
 
 #2 Utilizing APIS with the Django framework to make and receive API calls
 In order to prevent users  from editing information directly from the database, APIs was used as an intermediary between the user and the database. The Django framework was utilized in achieving this. API calls were made when the user navigated from one page to another as well as when they made, edited and deleted comments. This improved the security of the database and prevented the database from being infiltrated.
@@ -77,10 +77,65 @@ Upon selecting a restaurant of interest, users are redirected to another page fe
 Users can comment on the restaurant they have been to. They can also update the comments they have posted about the restaurant. Addditionally they can delete the comment they have posted. This gives the restaurants a Create, Read, Update and Delete functionality.
 
 # How the website runs
-![image](https://github.com/geotech-programming-project/restaurante-finder-app/assets/109597467/d3039df5-b551-4e8d-b3a5-1028449a395d)
+# Django Model
+This project leverages Django, a high-level Python web framework, in conjunction with PostgreSQL as the backend database engine. Django follows the Model-View-Template (MVT) architecture, where:
+
+Model (M): Handles interactions with the database and manages data.It is a blueprint that    
+           defines how the data should be ornaginzed and stored in the database.
+View (V): Implements business logic, communicates with models to fetch data, and renders       
+           templates.The View receives HTTP requests from clients, such as web browsers or 
+           mobile apps, and processes them according to the application's requirements. It                 retrieves necessary data from the Model layer, applies any necessary transformations 
+          or computations, and selects the appropriate response to be returned to the client.
+
+Template (T): Acts as the presentation layer, responsible for managing the User Interface    
+             components of the application.This is where the html and css files are stored.
 
 
-# How the          
+
+#  Project Structure
+The project is organized into several components:
+
+Restaurant_app: This serves as the primary app and encompasses settings, URL configurations, as well as WSGI (Web Server Gateway Interface) and ASGI (Asynchronous Server Gateway Interface) setups.
+
+Accounts, pages, and restaurants apps: These are additional apps that fulfill specific functionalities.
+
+Front-end folders: Other directories mainly cater to front-end aspects.
+
+The main folder has other sub folders.
+
+- Restaurant_app folder
+The main website folder is called 'restaurant_app'. This folder contains the configurations for the projects. In the settings.py, the django configurations needed for the websites such as the base directory, the folder where the static html files will be placed and much more can be found here.
+- urls.py
+  This is responsible for running the urls. when the user accesses a certain url, the functions in this python file redirects the request to another python script depending on the url that is being accessed. If the script that the user is being directed to is another url.py, then that code will also redirect the user to another script untill it's finally redirected to a script that will render and html page which will be displayed on the website.
+
+- Restaurant folder
+
+* Migrations
+This folder has scripts that creates tables in the postgres database. when this script is run, the tables and columns in the script will be created in the postgres.'python manage.py makemigrations' and then 'python manage.py migrate' commands are used to create the table.
+
+* Urls.py
+This script redirects the user to a python script or python function in a script based on the url request that is being made.
+
+# Utilities
+The manage.py script is a command-line utility that streamlines interaction with the Django project, allowing for tasks such as database migrations and server management.
+
+# How to run the website
+1. Python Packages Used
+In order to run the website from the code, make sure you have these python packages installed:
+- Django 5.0.1
+- psycopg2 2.9.9
+- pillow 10.2.0
+- googlemaps 4.10.0
+- requests 2.31.0
+
+  2. Ensure that you have the proper database configuration as specified in the 'settings.py' file under the 'restaurant_app' module. 
+  
+  3. Migration Generation
+  run the code 'python manage.py makemigrations' and then 'python manage.py migrate' in the terminal.This will create the necessary tables in postgres. Ensure that your current directory is the main folder.
+
+ 4. ETL Execution (Extract, Transform, Load)
+    In order to retrieve the information from the google maps API onto the postgres database, you need to run the command '
+
 
 
 
